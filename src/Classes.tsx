@@ -21,20 +21,60 @@ export default function Classes({ onSelect }: Props) {
     <div>
       <h1 style={{ marginBottom: 24 }}>Classes</h1>
 
-      <div className="classes-grid">
-        {societies.map((s) => (
+      <div className="UPA">
           <button
-            key={s.id}
+            key={societies[0].id}
             className="class-card"
-            onClick={() => onSelect(s.id)}
-            aria-label={`Open ${s.title} society page`}
+            onClick={() => onSelect(societies[0].id)}
+            aria-label={`Open ${societies[0].title} society page`}
           >
             <div className="card-logo">
               <FaSchool size={64} />
             </div>
-            <div className="card-title">{s.title}</div>
+            <div className="card-title">{societies[0].title}</div>
           </button>
-        ))}
+      </div>
+
+            <div className="UPA">
+          <button
+            key={societies[1].id}
+            className="class-card"
+            onClick={() => onSelect(societies[1].id)}
+            aria-label={`Open ${societies[1].title} society page`}
+          >
+            <div className="card-logo">
+              <FaSchool size={64} />
+            </div>
+            <div className="card-title">{societies[1].title}</div>
+          </button>
+      </div>
+
+            <div className="UPA">
+          <button
+            key={societies[2].id}
+            className="class-card"
+            onClick={() => onSelect(societies[2].id)}
+            aria-label={`Open ${societies[2].title} society page`}
+          >
+            <div className="card-logo">
+              <FaSchool size={64} />
+            </div>
+            <div className="card-title">{societies[2].title}</div>
+          </button>
+      </div>
+
+            <div className="UPA">
+          <button
+            key={societies[3].id}
+            className="class-card"
+            onClick={() => onSelect(societies[3].id)}
+            aria-label={`Open ${societies[3].title} society page`}
+          >
+            <div className="card-logo">
+              <FaSchool size={64} />
+            </div>
+            <div className="card-title">{societies[3].title}</div>
+          </button>
       </div>
     </div>
   );
