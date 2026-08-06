@@ -1,28 +1,42 @@
-import { supabase } from './supabaseClient';
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "../assets/image.jpg";
 import Logo from "../assets/logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { Alert } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
 
 export default function Auth() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const [errorMsg, setErrorMsg] = useState("");
+    const navigate = useNavigate();
+    const { login } = useAuth() as { login: (email: string, password: string) => Promise<any> };
 
-    const handleLogin = async (event: { preventDefault: () => void }) => {
-        event.preventDefault()
-
-        setLoading(true)
-        const { error } = await supabase.auth.signInWithOtp({ email })
-
-        if (error) {
-            alert(error.message)
-        } else {
-            alert('Check your email for the login link!')
+    const handleLogin = async (e: any) => {
+        e.preventDefault();
+        try {
+            setErrorMsg("");
+            setLoading(true);
+            if (!passwordRef.current?.value || !emailRef.current?.value) {
+                setErrorMsg("Por favor, preencha os campos");
+                return;
+            }
+            const {
+                data: { user, session },
+                error
+            } = await login(emailRef.current.value, passwordRef.current.value);
+            if (error) setErrorMsg(error.message);
+            if (user && session) navigate("/");
+        } catch (error) {
+            setErrorMsg("Email ou senha incorretos");
         }
-        setLoading(false)
-    }
+        setLoading(false);
+    };
 
     return (
         <div className="login-main">
@@ -41,6 +55,7 @@ export default function Auth() {
 
                             <div>
                                 <input
+                                    ref={emailRef}
                                     className="pass-input-div"
                                     type="email"
                                     placeholder="Email"
@@ -52,6 +67,7 @@ export default function Auth() {
 
                             <div className="pass-input-div">
                                 <input
+                                    ref={passwordRef}
                                     className="pass-input-div"
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Senha"
@@ -62,6 +78,15 @@ export default function Auth() {
                                     : <FaEye onClick={() => { setShowPassword(!showPassword); }} />}
                             </div>
 
+                            {errorMsg && (
+                                <Alert
+                                    variant="danger"
+                                    onClose={() => setErrorMsg("")}
+                                    dismissible>
+                                    {errorMsg}
+                                </Alert>
+                            )}
+
                             <div className={"login-center-options"}>
                                 <div className="remember-div">
                                     <input type="checkbox" id="remember-checkbox" />
@@ -69,9 +94,10 @@ export default function Auth() {
                                         Lembrar de mim
                                     </label>
                                 </div>
-                                <a href="#" className="forgot-pass-link">
-                                    Esqueceu a senha?
-                                </a>
+
+                                <div className="forgot-pass-link">
+                                    <Link to={"/passwordreset"}>Esqueceu a senha?</Link>
+                                </div>
                             </div>
                             <div className="login-center-button">
                                 <button type="button" disabled={loading} onClick={handleLogin}>

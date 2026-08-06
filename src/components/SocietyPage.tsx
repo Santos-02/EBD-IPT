@@ -1,4 +1,7 @@
+import { useParams } from "react-router-dom";
 import { FaArrowLeft, FaSchool } from 'react-icons/fa';
+
+const { society } = useParams();
 
 type Props = {
   society: string;
