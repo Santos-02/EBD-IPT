@@ -1,4 +1,3 @@
-import './Navigate.css'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthProvider'
 import Image from '../assets/image.jpg'

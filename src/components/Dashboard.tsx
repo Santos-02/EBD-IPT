@@ -11,8 +11,8 @@ export default function Dashboard() {
     const saf = () => {navigate('/saf')}
     const uph = () => {navigate('/uph')}
 
-    const student = () => {navigate('/student')}
-    const history = () => {navigate('/history')}
+    const member = () => {navigate('/membros')}
+    const history = () => {navigate('/historico')}
 
     return (
         <>
@@ -28,7 +28,7 @@ export default function Dashboard() {
             <button className="society-list" onClick={saf}>SAF</button>
             <button className="society-list" onClick={uph}>UPH</button>
 
-            <button className="student" onClick={student}>Alunos</button>
+            <button className="member" onClick={member}>Membros</button>
             <button className="history" onClick={history}>Histórico</button>
         </div>
         </>
