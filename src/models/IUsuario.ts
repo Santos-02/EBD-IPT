@@ -1,4 +1,4 @@
-interface IUsuario {
+export default interface IUsuario {
     id: number,
     token: string,
     nome: string,
@@ -10,6 +10,3 @@ interface IUsuario {
     status: boolean,
     avatar: string
 }
-
-export default IUsuario;
-//export default {} as IUsuario;

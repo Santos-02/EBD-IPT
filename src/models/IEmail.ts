@@ -1,4 +1,4 @@
-interface IEmail {
+export default interface IEmail {
     id: number,
     usuarioId: number,
     email: string,
@@ -7,5 +7,3 @@ interface IEmail {
     status: boolean,
     dataUltimaAlteracao: string,
 }
-
-export default IEmail;

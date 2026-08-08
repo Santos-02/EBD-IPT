@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import IUsuario from "../models/IUsuario";
+import type IUsuario from "../models/IUsuario";
 
 interface AuthContextData {
   signed: boolean;

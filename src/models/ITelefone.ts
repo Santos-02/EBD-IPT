@@ -1,4 +1,4 @@
-interface ITelefone {
+export default interface ITelefone {
     id: number,
     telefonePrincipal: boolean,
     telefone: number,
@@ -9,5 +9,3 @@ interface ITelefone {
     usuarioId: number,
     whatsApp: boolean,
 }
-
-export default ITelefone;

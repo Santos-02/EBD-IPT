@@ -1,7 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import supabase from './api/supabaseClient'
-import Auth from './components/Auth'
+import Auth from './components/Auth.tsx_old'
 import Dashboard from './components/Dashboard'
 import { Route, Routes } from 'react-router-dom'
 import Members from './components/Members'
