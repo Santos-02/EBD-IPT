@@ -15,7 +15,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { CssBaseline, ThemeProvider, Divider } from "@mui/material";
 import EnviarEmailRecuperarAcesso from "../screens/enviarEmail";
 
-function RoutesController() {
+const RoutesController: any = () => {
   const [theme, colorMode] = useMode();
   const { signed, user } = useContext<Usuarios>(AuthContext);
   // const { signed } = true;

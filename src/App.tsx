@@ -1,11 +1,17 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import supabase from './api/supabaseClient'
-import Auth from './components/Auth.tsx_old'
-import Dashboard from './components/Dashboard'
-import { Route, Routes } from 'react-router-dom'
-import Members from './components/Members'
-import AuthProvider from './context/auth'
+import RoutesController from './routes'
+import { AuthProvider } from './context/auth'
+
+//import { Routes } from 'react-router-dom'
+//import Auth from './components/Auth'
+
+// import Auth from './context/Auth'
+// import Dashboard from './components/Dashboard'
+// import { Route, Routes } from 'react-router-dom'
+// import Members from './components/Members'
+// import AuthProvider from './context/auth'
 
 function App() {
   const [claims, setClaims] = useState<any | null>(null)
@@ -33,7 +39,8 @@ function App() {
     // <div className="container" style={{ padding: '50px 0 100px 0' }}>
     //   {!claims ? (<Auth />) : (<Dashboard />)}
 
-    //   <Routes>
+    //   <Routes>INSERT INTO member (name, society)
+//VALUES ('João Lucas', 'UMP'), ('Antônio Augusto', 'UMP');
     //     <Route path="/sociedades/:society" element={<Dashboard />} />
     //     <Route path="/membros" element={<Members />} />
     //   </Routes>
