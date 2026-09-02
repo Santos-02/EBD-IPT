@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Login from "../screens/login";
 import Membros from "../screens/membro";
-import Topbar from "../components/topbar";
+import Topbar from "../components/topBar";
 import Usuarios from "../screens/usuario";
 import AuthContext from "../context/auth";
 import Cadastro from "../screens/cadastro";

@@ -10,11 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fullcalendar/core": "^7.0.2",
+    "@fullcalendar/core": "^6.1.21",
     "@fullcalendar/daygrid": "^6.1.21",
     "@fullcalendar/interaction": "^6.1.21",
-    "@fullcalendar/react": "^7.0.2",
-    "@fullcalendar/react-scheduler": "^7.0.2",
+    "@fullcalendar/react": "^6.1.21",
     "@fullcalendar/timegrid": "^6.1.21",
     "@mui/icons-material": "^9.3.1",
     "@mui/material": "^9.3.1",
@@ -31,6 +30,7 @@
     "react-moment": "^2.0.2",
     "react-pro-sidebar": "^1.1.0",
     "react-router-dom": "^7.18.2",
+    "recharts": "^3.10.1",
     "temporal-polyfill": "^1.0.4"
   },
   "devDependencies": {

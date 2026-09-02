@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form";
 import logo from "../../assets/logo.png";
-import AuthContext from "../../context/auth";
-import { useNavigate } from "react-router-dom";
 import background from "../../assets/image.jpg";
-import React, { memo, useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import UsuarioService from "../../services/UsuarioService";
+import React, { memo, useContext, useState } from "react";
 import {
   Box,
   Card,
@@ -14,9 +14,9 @@ import {
   useMediaQuery,
   CircularProgress,
 } from "@mui/material";
-import UsuarioService from "../../services/UsuarioService";
+import AuthContext from "../../context/auth";
 
-const Login: React.FC = () => {
+const Cadastro: React.FC = () => {
   const navigate = useNavigate();
   const { signIn } = useContext(AuthContext);
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -29,13 +29,13 @@ const Login: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     setSubmitting(true);
-    UsuarioService.login(data)
+    UsuarioService.salvarUsuario2(data)
       .then((resp) => {
-        if (resp.token) {
+        if (resp.id) {
           signIn(resp);
           navigate("/dashboard");
         } else {
-          window.alert("Não foi possível realizar o login!");
+          window.alert(resp || "Não foi possível realizar o cadastro!");
         }
       })
       .catch((e) => {
@@ -45,17 +45,6 @@ const Login: React.FC = () => {
         setSubmitting(false);
       });
   };
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    const params = new URLSearchParams(hash.substring(1));
-    const access_token = params.get("access_token") || "";
-    const refresh_token = params.get("refresh_token") || "";
-
-    if (access_token && refresh_token) {
-      navigate("/recuperar-senha", { state: { access_token, refresh_token } });
-    }
-  }, []);
 
   return (
     <Box
@@ -85,20 +74,38 @@ const Login: React.FC = () => {
           </div>
 
           <Typography color="#ADADAD" fontSize={30}>
-            Bem-vindo!
+            Cadastro
           </Typography>
+
+          <TextField
+            id="Nome-basic"
+            type="text"
+            label="Nome"
+            variant="standard"
+            style={{ width: "100%" }}
+            error={!!errors.nome}
+            helperText={errors.nome ? "Nome é obrigatório" : ""}
+            {...register("nome", { required: true })}
+          />
+
+          <TextField
+            id="Telefone-basic"
+            type="text"
+            label="Telefone"
+            variant="standard"
+            style={{ width: "100%", marginTop: 20 }}
+            {...register("telefone")}
+          />
 
           <TextField
             id="Email-basic"
             type="email"
             label="E-mail"
             variant="standard"
-            style={{ width: "100%" }}
+            style={{ width: "100%", marginTop: 20 }}
             error={!!errors.email}
             helperText={errors.email ? "Email é obrigatório" : ""}
-            {...register("email", {
-              required: true,
-            })}
+            {...register("email", { required: true })}
           />
 
           <TextField
@@ -109,28 +116,8 @@ const Login: React.FC = () => {
             style={{ width: "100%", marginTop: 20 }}
             error={!!errors.senha}
             helperText={errors.senha ? "Senha é obrigatória" : ""}
-            {...register("senha", {
-              required: true,
-            })}
+            {...register("senha", { required: true })}
           />
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              marginTop: 30,
-            }}
-          >
-            <a
-              className="linkLogin"
-              onClick={() => {
-                navigate("/enviar-recuperar-acesso");
-              }}
-            >
-              Esqueci a senha
-            </a>
-          </div>
 
           <Button
             type="submit"
@@ -141,35 +128,29 @@ const Login: React.FC = () => {
             {submitting ? (
               <CircularProgress size={24} sx={{ color: "white" }} />
             ) : (
-              "Login"
+              "Cadastrar"
             )}
           </Button>
           <a
             className="linkLogin"
             onClick={() => {
-              navigate("/cadastrar");
+              navigate("/");
             }}
           >
-            Cadastrar-se
+            Retornar ao Login
           </a>
         </Card>
       </form>
       <Box
         component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: "auto",
-          bottom: 0,
-          position: "fixed",
-        }}
+        sx={{ py: 3, px: 2, mt: "auto", bottom: 0, position: "fixed" }}
       >
         <Container maxWidth="sm">
           <Typography
             sx={{ color: "white", textAlign: "center" }}
             variant="body1"
           >
-            2024 - Desenvolvido por Neves369©, todos os direitos reservados.
+            2024 - Desenvolvido por Santos-02©, todos os direitos reservados.
           </Typography>
         </Container>
       </Box>
@@ -177,5 +158,5 @@ const Login: React.FC = () => {
   );
 };
 
-const MemoizedLogin = memo(Login);
-export default MemoizedLogin;
+const MemoizedCadastro = memo(Cadastro);
+export default MemoizedCadastro;
