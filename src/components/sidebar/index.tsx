@@ -17,9 +17,7 @@ const SidebarCustom = () => {
 
     const [selected, setSelected] = useState("Dashboard");
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const { 
-        //user, 
-        signOutClearAll } = useContext(AuthContext);
+    const signOutClearAll = useContext(AuthContext)?.signOutClearAll;
 
     const Item = ({ title, to, icon, selected, setSelected }: any) => {
         return (
@@ -105,7 +103,7 @@ const SidebarCustom = () => {
                 <Box display={"flex"} position="fixed" sx={{ bottom: 30 }}>
                     <LogoutIcon
                         onClick={() => {
-                            signOutClearAll();
+                            signOutClearAll?.();
                             navigate("/");
                         }}
                         sx={{

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Header from "../../components/header";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
@@ -23,7 +23,6 @@ import {
 import { useForm } from "react-hook-form";
 import { Edit } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
-import AuthContext from "../../context/auth";
 import LivroService from "../../services/MembroService";
 import CustomToolbar from "../../components/CustomMui/CustomToolbar";
 
@@ -31,7 +30,6 @@ import CustomToolbar from "../../components/CustomMui/CustomToolbar";
 const Membros = () => {
   const navigate = useNavigate();
   const [membros, setMembros] = useState([]);
-  const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);

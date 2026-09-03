@@ -11,6 +11,8 @@ import {
   TextField,
   Container,
   Typography,
+  Alert,
+  Snackbar,
   useMediaQuery,
   CircularProgress,
 } from "@mui/material";
@@ -18,9 +20,14 @@ import AuthContext from "../../context/auth";
 
 const Cadastro: React.FC = () => {
   const navigate = useNavigate();
-  const { signIn } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [submitting, setSubmitting] = useState(false);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: "success" | "error" }>({
+    open: false,
+    message: "",
+    severity: "error",
+  });
   const {
     register,
     handleSubmit,
@@ -29,21 +36,27 @@ const Cadastro: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     setSubmitting(true);
-    UsuarioService.salvarUsuario2(data)
-      .then((resp) => {
-        if (resp.id) {
-          signIn(resp);
-          navigate("/dashboard");
-        } else {
-          window.alert(resp || "Não foi possível realizar o cadastro!");
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setSubmitting(false);
+    try {
+      const resp: any = await UsuarioService.salvarUsuario2(data);
+      if (resp?.id) {
+        auth?.signIn(resp);
+        navigate("/dashboard");
+      } else {
+        setSnackbar({
+          open: true,
+          message: resp || "Não foi possível realizar o cadastro!",
+          severity: "error",
+        });
+      }
+    } catch (e: any) {
+      setSnackbar({
+        open: true,
+        message: e?.message || "Erro ao realizar o cadastro!",
+        severity: "error",
       });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -154,6 +167,19 @@ const Cadastro: React.FC = () => {
           </Typography>
         </Container>
       </Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={5000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          severity={snackbar.severity}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

@@ -32,7 +32,6 @@ const login = async (usuario: any) => {
                 email: data[0].email,
                 status: data[0].status,
                 tipoUsuario: data[0].tipo_usuario,
-                token: session.access_token
             }
 
             return newUser;

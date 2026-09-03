@@ -17,11 +17,11 @@ import EnviarEmailRecuperarAcesso from "../screens/enviarEmail";
 
 const RoutesController: any = () => {
   const [theme, colorMode] = useMode();
-  const { signed, user } = useContext<Usuarios>(AuthContext);
+  const { signed, user } = useContext(AuthContext) ?? { signed: false, user: undefined };
   // const { signed } = true;
 
   const Private = ({ item }: any) => {
-    if (!signed || user.tipoUsuario !== "master") {
+    if (!signed || user?.tipoUsuario !== "master") {
       return <Navigate to="/" replace />;
     }
 

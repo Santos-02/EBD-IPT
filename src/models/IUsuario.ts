@@ -8,5 +8,6 @@ export default interface IUsuario {
     email: string,
     senha: string,
     status: boolean,
-    avatar: string
+    avatar: string,
+    tipoUsuario: string
 }

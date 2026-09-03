@@ -11,6 +11,8 @@ import {
   TextField,
   Container,
   Typography,
+  Alert,
+  Snackbar,
   useMediaQuery,
   CircularProgress,
 } from "@mui/material";
@@ -18,9 +20,13 @@ import UsuarioService from "../../services/UsuarioService";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { signIn } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [submitting, setSubmitting] = useState(false);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: "",
+  });
   const {
     register,
     handleSubmit,
@@ -29,21 +35,22 @@ const Login: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     setSubmitting(true);
-    UsuarioService.login(data)
-      .then((resp) => {
-        if (resp.token) {
-          signIn(resp);
-          navigate("/dashboard");
-        } else {
-          window.alert("Não foi possível realizar o login!");
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
+    try {
+      const resp: any = await UsuarioService.login(data);
+      if (resp?.id) {
+        auth?.signIn(resp);
+        navigate("/dashboard");
+      } else {
+        setSnackbar({
+          open: true,
+          message: resp || "Não foi possível realizar o login!",
+        });
+      }
+    } catch (e: any) {
+      setSnackbar({ open: true, message: e?.message || "Erro ao realizar o login!" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -173,6 +180,19 @@ const Login: React.FC = () => {
           </Typography>
         </Container>
       </Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={5000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          severity="error"
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

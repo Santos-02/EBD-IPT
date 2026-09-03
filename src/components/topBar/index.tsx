@@ -8,7 +8,7 @@ const TopBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
-  const { user } = useContext(AuthContext);
+  const user = useContext(AuthContext)?.user;
 
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center" p={2}>
