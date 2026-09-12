@@ -1,14 +1,15 @@
 import { useContext } from "react";
-import { useTheme, Box, IconButton, Typography } from "@mui/material";
-import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
+import { useTheme, Box, IconButton, Typography, useMediaQuery } from "@mui/material";
+import { DarkModeOutlined, LightModeOutlined, MenuOutlined } from "@mui/icons-material";
 import { ColorModeContext, tokens } from "../../theme";
 import AuthContext from "../../context/auth";
 
-const TopBar = () => {
+const TopBar = ({ onOpenMenu }: { onOpenMenu?: () => void }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const user = useContext(AuthContext)?.user;
+  const isMobile = useMediaQuery("(max-width:599px)");
 
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center" p={2}>
@@ -21,6 +22,12 @@ const TopBar = () => {
       </Box>
 
       <Box display="flex" alignItems="center" gap={1}>
+        {isMobile && (
+          <IconButton onClick={onOpenMenu} aria-label="Abrir menu">
+            <MenuOutlined />
+          </IconButton>
+        )}
+
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlined />

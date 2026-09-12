@@ -13,31 +13,31 @@ const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
 interface UsuarioRow {
   id: number;
-  nome: string;
-  telefone: string;
-  data_cadastro: string;
+  name: string;
+  phone: string;
+  created_at: string;
   email: string;
   status: boolean;
-  tipo_usuario: string;
+  role: string;
 }
 
 const mapRowToUsuario = (row: UsuarioRow): IUsuario => ({
   id: row.id,
   token: "",
-  nome: row.nome,
-  telefone: row.telefone,
-  dataCadastro: row.data_cadastro,
+  nome: row.name,
+  telefone: row.phone,
+  dataCadastro: row.created_at,
   dataUltimaAlteracao: "",
   email: row.email,
   senha: "",
   status: row.status,
   avatar: "",
-  tipoUsuario: row.tipo_usuario,
+  tipoUsuario: row.role,
 });
 
 const fetchUsuarioBySession = async (userId: string): Promise<IUsuario | null> => {
   const { data, error } = await supabase
-    .from("user")
+    .from("users")
     .select("*")
     .eq("id", userId)
     .single();

@@ -15,7 +15,7 @@ const login = async (usuario: any) => {
           
           if (session){
               const { data, error } = await supabase
-              .from('usuario')
+              .from('users')
               .select("*")
               .eq('id',  session.user.id);
               
@@ -24,14 +24,18 @@ const login = async (usuario: any) => {
                 return error.message;
             }
 
+            if (!data || data.length === 0) {
+                return "Usuário não encontrado no banco de dados.";
+            }
+
             const newUser: any = {
                 id: data[0].id,
-                nome: data[0].nome,
-                telefone: data[0].telefone,
-                dataCadastro: data[0].data_cadastro,            
+                nome: data[0].name,
+                telefone: data[0].phone,
+                dataCadastro: data[0].created_at,            
                 email: data[0].email,
                 status: data[0].status,
-                tipoUsuario: data[0].tipo_usuario,
+                tipoUsuario: data[0].role,
             }
 
             return newUser;
@@ -53,14 +57,14 @@ const listarUsuarios = async (filtros: any) => {
         );
 
         // Inicia a consulta
-        let query = supabase.from('usuario_sem_acento').select("*");
+        let query = supabase.from('users_ascii').select("*");
 
         // Aplica os filtros dinamicamente
         for (const [key, value] of Object.entries(where)) {
             if (key === "nome") {
-                query = query.ilike("nome_sem_acento", `%${value}%`);
+                query = query.ilike("name_ascii", `%${value}%`);
             } else if (key === "email") {
-                query = query.ilike("email_sem_acento", `%${value}%`);
+                query = query.ilike("email_ascii", `%${value}%`);
             } else if (key === "status") {
                 query = query.eq(key, value);
             }
@@ -92,13 +96,14 @@ const salvarUsuario = async (usuario: any) => {
 
           if (data.user){
             const { error } = await supabase
-            .from('usuario')
-            .update([{ 
-                nome: usuario.nome, 
-                telefone: usuario.telefone,  
+            .from('users')
+            .insert({ 
+                id: data.user.id,
+                name: usuario.nome, 
+                phone: usuario.telefone,  
                 email: usuario.email,
-                tipo_usuario: usuario.tipoUsuario,
-            }]).eq('id',  data.user.id);
+                role: usuario.tipoUsuario || 'user',
+            });
 
             if (error) {
                 return error.message;
@@ -111,7 +116,7 @@ const salvarUsuario = async (usuario: any) => {
                 dataCadastro: moment.now(),            
                 email: usuario.email,
                 status: true,
-                tipoUsuario: usuario.tipoUsuario,
+                tipoUsuario: usuario.tipoUsuario || 'user',
             }
 
             return newUser;
@@ -137,13 +142,14 @@ const salvarUsuario2 = async (usuario: any) => {
 
           if (data){
             const { error } = await supabase
-            .from('usuario')
-            .update([{ 
-                nome: usuario.nome, 
-                telefone: usuario.telefone,  
+            .from('users')
+            .insert({ 
+                id: data.user.id,
+                name: usuario.nome, 
+                phone: usuario.telefone,  
                 email: usuario.email,
-                tipo_usuario: usuario.tipoUsuario,
-            }]).eq('id',  data.user.id);
+                role: usuario.tipoUsuario || 'user',
+            });
 
             if (error) {
                 return error.message;
@@ -156,7 +162,7 @@ const salvarUsuario2 = async (usuario: any) => {
                 dataCadastro: moment.now(),            
                 email: usuario.email,
                 status: true,
-                tipoUsuario: usuario.tipoUsuario,
+                tipoUsuario: usuario.tipoUsuario || 'user',
             }
 
             return newUser;
@@ -170,11 +176,11 @@ const salvarUsuario2 = async (usuario: any) => {
 const editarUsuario = async (usuarioId: string, usuario: any) => {
     try {
         const { error, status } = await supabase
-        .from('usuario')
+        .from('users')
         .update({ 
-            nome: usuario.nome, 
-            telefone: usuario.telefone,  
-            documento: usuario.documento, 
+            name: usuario.nome, 
+            phone: usuario.telefone,  
+            document: usuario.documento, 
         }).eq('id',  usuarioId);
 
         if (error) {

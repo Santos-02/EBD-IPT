@@ -37,7 +37,7 @@ const Cadastro: React.FC = () => {
   const onSubmit = async (data: any) => {
     setSubmitting(true);
     try {
-      const resp: any = await UsuarioService.salvarUsuario2(data);
+      const resp: any = await UsuarioService.salvarUsuario(data);
       if (resp?.id) {
         auth?.signIn(resp);
         navigate("/dashboard");
@@ -70,15 +70,21 @@ const Cadastro: React.FC = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundImage: `url(${background})`,
+        overflowY: "auto",
+        px: { xs: 2, sm: 0 },
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{ width: "100%", display: "flex", justifyContent: "center" }}
+      >
         <Card
           sx={{
-            maxWidth: isNonMobile ? 390 : 350,
+            width: "100%",
+            maxWidth: isNonMobile ? 390 : "100%",
             backgroundColor: "#FBF7F4",
             borderRadius: 10,
-            padding: 5,
+            padding: { xs: 3, sm: 5 },
             textAlign: "center",
           }}
         >
@@ -156,7 +162,14 @@ const Cadastro: React.FC = () => {
       </form>
       <Box
         component="footer"
-        sx={{ py: 3, px: 2, mt: "auto", bottom: 0, position: "fixed" }}
+        sx={{
+          py: 3,
+          px: 2,
+          mt: "auto",
+          width: "100%",
+          bottom: 0,
+          position: isNonMobile ? "fixed" : "relative",
+        }}
       >
         <Container maxWidth="sm">
           <Typography

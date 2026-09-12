@@ -4,7 +4,6 @@ import AuthContext from "../../context/auth";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { checkDevice } from "../../utils/checkDevice";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
@@ -47,8 +46,7 @@ const SidebarCustom = () => {
     };
 
     return (
-        <Box display={checkDevice() === true ? "none" : "block"}>
-            <Sidebar collapsed={isCollapsed}>
+        <Sidebar collapsed={isCollapsed}>
                 <Menu>
                     <MenuItem
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -129,8 +127,7 @@ const SidebarCustom = () => {
                     )}
                 </Box>
             </Sidebar>
-        </Box>
-    );
+        );
 };
 
 export default SidebarCustom;

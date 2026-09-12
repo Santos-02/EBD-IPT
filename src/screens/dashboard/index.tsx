@@ -100,7 +100,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box m={{ xs: 1.5, sm: 2.5 }}>
       <Header title="Dashboard" subtitle="Visão geral da Escola Bíblica Dominical" />
 
       {/* Cards de resumo */}
@@ -161,7 +161,7 @@ const Dashboard = () => {
           borderRadius="10px"
           boxShadow="0px 2px 10px rgba(0,0,0,0.15)"
           p="20px"
-          height="380px"
+          height={{ xs: "260px", sm: "380px" }}
         >
           <Typography variant="h4" fontWeight="bold" mb="20px">
             Membros por Sociedade
@@ -184,7 +184,7 @@ const Dashboard = () => {
           borderRadius="10px"
           boxShadow="0px 2px 10px rgba(0,0,0,0.15)"
           p="20px"
-          height="380px"
+          height={{ xs: "260px", sm: "380px" }}
         >
           <Typography variant="h4" fontWeight="bold" mb="20px">
             Distribuição
@@ -197,7 +197,7 @@ const Dashboard = () => {
                 nameKey="society"
                 cx="50%"
                 cy="50%"
-                outerRadius={100}
+                outerRadius={isNonMobile ? 100 : 70}
                 label={(entry: any) => entry.society}
               >
                 {porSociedade.map((item) => (

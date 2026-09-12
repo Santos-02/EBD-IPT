@@ -11,14 +11,14 @@ const listarMembros = async (filtros: any) => {
         );
 
         // Inicia a consulta
-        let query = supabase.from('membro').select("*");
+        let query = supabase.from('members').select("*");
 
         // Aplica os filtros dinamicamente
         for (const [key, value] of Object.entries(where)) {
             if (key === "nome") {
                 query = query.ilike("name", `%${value}%`);
             } else if (key === "sociedade") {
-                query = query.eq(key, value);
+                query = query.eq("society", value);
             }
         }
 
@@ -37,7 +37,7 @@ const listarMembros = async (filtros: any) => {
 const salvarMembro = async (membro: any) => {
     try {
         const { status, error } = await supabase
-            .from('membro')
+            .from('members')
             .insert({
                 name: membro.nome,
                 society: membro.sociedade,
@@ -57,7 +57,7 @@ const salvarMembro = async (membro: any) => {
 const editarMembro = async (membro: any, id: any) => {
     try {
         const { status, error } = await supabase
-            .from('membro')
+            .from('members')
             .update({
                 name: membro.nome,
                 society: membro.sociedade,

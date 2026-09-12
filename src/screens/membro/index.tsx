@@ -40,13 +40,13 @@ const Membros = () => {
   const columns: any = [
     // { field: "id", headerName: "ID", flex: 0.5 },
     {
-      field: "nome",
+      field: "name",
       headerName: "Nome",
       flex: 1,
       cellClassName: "nome-column--cell",
     },
     {
-      field: "sociedade",
+      field: "society",
       headerName: "Sociedade",
       flex: 1,
       cellClassName: "sociedade-column--cell",
@@ -102,7 +102,7 @@ const Membros = () => {
   };
 
   return (
-    <Box m="20px">
+    <Box m={{ xs: 1.5, sm: 2.5 }}>
       {/* Header */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header

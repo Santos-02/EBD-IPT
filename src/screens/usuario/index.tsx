@@ -47,7 +47,7 @@ const Usuarios = () => {
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
     {
-      field: "nome",
+      field: "name",
       headerName: "Nome",
       flex: 1,
     },
@@ -55,11 +55,6 @@ const Usuarios = () => {
       field: "email",
       headerName: "Email",
       flex: 1,
-    },
-    {
-      field: "tipo_usuario",
-      headerName: "Tipo Usuário",
-      flex: 0.5,
     },
     {
       field: "editar",
@@ -174,7 +169,7 @@ const Usuarios = () => {
   };
 
   return (
-    <Box m="20px">
+    <Box m={{ xs: 1.5, sm: 2.5 }}>
       {/* Header */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
@@ -297,7 +292,7 @@ const Usuarios = () => {
                   {...register("nome", {
                     required: false,
                   })}
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{ gridColumn: { xs: "span 4", sm: "span 2" } }}
                 />
                 {isNonMobile ? (
                   <div style={{ gridColumn: "span 2" }}></div>
@@ -313,7 +308,7 @@ const Usuarios = () => {
                   {...register("email", {
                     required: false,
                   })}
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{ gridColumn: { xs: "span 4", sm: "span 2" } }}
                 />
 
                 {isNonMobile ? (
@@ -351,8 +346,8 @@ const Usuarios = () => {
             columns: {
               columnVisibilityModel: {
                 id: isNonMobile,
-                documento: isNonMobile,
-                tipo_usuario: isNonMobile,
+                document: isNonMobile,
+                role: isNonMobile,
                 visualizar: isNonMobile,
                 ativar_inativar: isNonMobile,
               },

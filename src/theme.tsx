@@ -175,40 +175,40 @@ export const themeSettings = (mode: any) => {
           }),
     },
     typography: {
-      fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+      fontFamily: ["Poppins", "sans-serif"].join(","),
       fontSize: 14,
       h1: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 40,
         fontWeight: 700, // Melhora a legibilidade no dark mode
         color: mode === "dark" ? colors.grey[100] : colors.grey[900],
       },
       h2: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 32,
         fontWeight: 600,
         color: mode === "dark" ? colors.grey[200] : colors.grey[800],
       },
       h3: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 24,
         fontWeight: 500,
         color: mode === "dark" ? colors.grey[300] : colors.grey[700],
       },
       h4: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 20,
         fontWeight: 500,
         color: mode === "dark" ? colors.grey[400] : colors.grey[600],
       },
       h5: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 16,
         fontWeight: 400,
         color: mode === "dark" ? colors.grey[500] : colors.grey[500],
       },
       h6: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 14,
         fontWeight: 400,
         color: mode === "dark" ? colors.grey[600] : colors.grey[400],

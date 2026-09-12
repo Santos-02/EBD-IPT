@@ -58,7 +58,7 @@ const Calendario = () => {
 
   return (
     <Box
-      m="20px"
+      m={{ xs: 1.5, sm: 2.5 }}
       gridRow="span 3"
       display={"flex"}
       gridColumn={"span 12"}

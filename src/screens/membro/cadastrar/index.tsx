@@ -37,8 +37,8 @@ const CadastrarMembro = () => {
 
   useEffect(() => {
     if (state) {
-      setValue("nome", state.nome);
-      setValue("sociedade", state.sociedade);
+      setValue("nome", state.name);
+      setValue("sociedade", state.society);
     }
   }, [setValue, state]);
 
@@ -87,7 +87,7 @@ const CadastrarMembro = () => {
   };
 
   return (
-    <Box m="20px">
+    <Box m={{ xs: 1.5, sm: 2.5 }}>
       <Header
         title={state ? "Editar Membro" : "Cadastrar Membro"}
         subtitle={state ? `Membro ID ${state.id}` : ""}
@@ -118,7 +118,7 @@ const CadastrarMembro = () => {
               })}
               error={!!errors.nome}
               helperText={errors.nome ? "Nome é obrigatório" : ""}
-              sx={{ gridColumn: "span 2" }}
+              sx={{ gridColumn: { xs: "span 4", sm: "span 2" } }}
             />
 
             <TextField
@@ -132,7 +132,7 @@ const CadastrarMembro = () => {
               })}
               error={!!errors.sociedade}
               helperText={errors.sociedade ? "Sociedade é obrigatória" : ""}
-              sx={{ gridColumn: "span 2" }}
+              sx={{ gridColumn: { xs: "span 4", sm: "span 2" } }}
             >
               <MenuItem value="" disabled>
                 Selecione a sociedade

@@ -7,7 +7,7 @@ const SOCIEDADES = ["UCP", "UPA", "UMP", "UPH", "SAF"];
 const listarMembrosPorSociedade = async () => {
     try {
         const { data, error } = await supabase
-            .from('membro')
+            .from('members')
             .select('society');
 
         if (error) {
@@ -27,8 +27,8 @@ const listarMembrosPorSociedade = async () => {
 const listarResumo = async () => {
     try {
         const [membros, usuarios] = await Promise.all([
-            supabase.from('membro').select('id', { count: 'exact', head: true }),
-            supabase.from('usuario').select('status'),
+            supabase.from('members').select('id', { count: 'exact', head: true }),
+            supabase.from('users').select('status'),
         ]);
 
         if (membros.error) {
@@ -53,7 +53,7 @@ const listarResumo = async () => {
 const listarMembrosRecentes = async () => {
     try {
         const { data, error } = await supabase
-            .from('membro')
+            .from('members')
             .select('*')
             .order('created_at', { ascending: false })
             .limit(5);

@@ -48,15 +48,21 @@ const EnviarEmailRecuperarAcesso: React.FC = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundImage: `url(${background})`,
+        overflowY: "auto",
+        px: { xs: 2, sm: 0 },
       }}
     >
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ width: "100%", display: "flex", justifyContent: "center" }}
+      >
         <Card
           sx={{
-            maxWidth: isNonMobile ? 390 : 350,
+            width: "100%",
+            maxWidth: isNonMobile ? 390 : "100%",
             backgroundColor: "#FBF7F4",
             borderRadius: 10,
-            padding: 5,
+            padding: { xs: 3, sm: 5 },
             textAlign: "center",
           }}
         >
@@ -108,8 +114,9 @@ const EnviarEmailRecuperarAcesso: React.FC = () => {
           py: 3,
           px: 2,
           mt: "auto",
+          width: "100%",
           bottom: 0,
-          position: "fixed",
+          position: isNonMobile ? "fixed" : "relative",
         }}
       >
         <Container maxWidth="sm">
