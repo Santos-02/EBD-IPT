@@ -22,28 +22,20 @@ import {
   ResponsiveContainer,
   Tooltip as ChartTooltip,
 } from "recharts";
-import socUCP from "../../assets/UCP.png";
-import socUPA from "../../assets/UPA.png";
-import socUMP from "../../assets/UMP.png";
-import socUPH from "../../assets/UPH.png";
-import socSAF from "../../assets/SAF.png";
+import UCP_logo from "../../assets/UCP.png";
+import UPA_logo from "../../assets/UPA.png";
+import UMP_logo from "../../assets/UMP.png";
+import UPH_logo from "../../assets/UPH.png";
+import SAF_logo from "../../assets/SAF.png";
 
 const SOCIEDADES = ["UCP", "UPA", "UMP", "UPH", "SAF"];
 
 const SOCIEDADE_IMAGENS: Record<string, string> = {
-  UCP: socUCP,
-  UPA: socUPA,
-  UMP: socUMP,
-  UPH: socUPH,
-  SAF: socSAF,
-};
-
-const SOCIEDADE_CORES: Record<string, string> = {
-  UCP: "#1F6FEB",
-  UPA: "#2EBF82",
-  UMP: "#6870FA",
-  UPH: "#DB4F4A",
-  SAF: "#E2A03F",
+  UCP: UCP_logo,
+  UPA: UPA_logo,
+  UMP: UMP_logo,
+  UPH: UPH_logo,
+  SAF: SAF_logo,
 };
 
 const formatarDataCurta = (data: string) => {
@@ -98,11 +90,11 @@ const Dashboard = () => {
             variant="contained"
             onClick={() => navigate(`/controle-presenca/${sociedade}`)}
             sx={{
-              backgroundColor: isDark ? colors.grey[700] : "#00311D",
+              backgroundColor: isDark ? colors.grey[700] : "#555555",
               color: "#ffffff",
               borderRadius: "10px",
               py: "24px",
-              px: "12px",
+              px: "24px",
               display: "flex",
               flexDirection: "column",
               gap: "8px",
@@ -119,7 +111,7 @@ const Dashboard = () => {
               sx={{
                 width: 56,
                 height: 56,
-                borderRadius: "50%",
+                // borderRadius: "10%",
                 objectFit: "cover",
               }}
             />
@@ -205,7 +197,7 @@ const Dashboard = () => {
                 {sociedades.map((item) => (
                   <Cell
                     key={item.society}
-                    fill={isDark ? colors.grey[500] : SOCIEDADE_CORES[item.society]}
+                    fill={isDark ? colors.grey[500] : "#00311D"}
                   />
                 ))}
               </Pie>
