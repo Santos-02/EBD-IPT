@@ -109,6 +109,7 @@ const CadastrarMembro = () => {
             }}
           >
             <TextField
+              style={{ marginTop: "10px", marginBottom: "10px" }}
               fullWidth
               variant="outlined"
               type="text"
@@ -122,6 +123,7 @@ const CadastrarMembro = () => {
             />
 
             <TextField
+              style={{ marginTop: "10px", marginBottom: "10px" }}
               fullWidth
               select
               variant="outlined"
@@ -149,6 +151,7 @@ const CadastrarMembro = () => {
 
           <Box display="flex" justifyContent="end" mt="20px">
             <Button
+              style={{ marginTop: "10px", marginBottom: "10px" }}
               disabled={loading}
               type="submit"
               color="primary"

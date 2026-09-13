@@ -21,12 +21,16 @@ body {
   height: 100vh;
   min-height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .content {
   flex: 1;
   min-width: 0;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -34,6 +38,52 @@ body {
 .ps-sidebar-root,
 .ps-sidebar-container {
   height: 100%;
+}
+
+.ps-sidebar-root {
+  border-right: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.ps-menu-button {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ps-menu-button:hover {
+  background-color: rgba(128, 128, 128, 0.15) !important;
+}
+
+.app .sidebar-divider {
+  border-top: 1px solid rgba(128, 128, 128, 0.35);
+  margin-top: 20px;
+}
+
+.app .sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+/* Modo claro */
+.app[data-mode="light"] .ps-menu-button {
+  color: #141414;
+}
+
+/* Modo escuro */
+.app[data-mode="dark"] .ps-sidebar-root {
+  background-color: #1e1e1e;
+}
+
+.app[data-mode="dark"] .ps-menu-button {
+  color: #d6d6d6;
+}
+
+.app[data-mode="dark"] .ps-menu-button:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff;
+}
+
+.app[data-mode="dark"] .ps-submenu-content {
+  background-color: #1e1e1e;
 }
 
 /* Links das telas de login/cadastro */

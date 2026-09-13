@@ -13,6 +13,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import supabase from "../../api/supabaseClient";
+import { authFieldSx } from "../../utils/authFieldStyles";
 
 const RecuperarAcesso: React.FC = () => {
   const navigate = useNavigate();
@@ -72,27 +73,28 @@ const RecuperarAcesso: React.FC = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
-        alignItems: "center",
-        backgroundSize: "cover",
+        flexDirection: "column",
         justifyContent: "center",
+        backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundImage: `url(${background})`,
         overflowY: "auto",
+        py: { xs: 3, sm: 4 },
         px: { xs: 2, sm: 0 },
       }}
     >
       <form
         onSubmit={handleSubmit}
-        style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        style={{ width: "100%", display: "flex", justifyContent: "center", margin: "auto" }}
       >
         <Card
           sx={{
             width: "100%",
             maxWidth: isNonMobile ? 390 : "100%",
-            backgroundColor: "#FBF7F4",
+            backgroundColor: "#FFFFFF",
             borderRadius: 10,
             padding: { xs: 3, sm: 5 },
             textAlign: "center",
@@ -114,6 +116,7 @@ const RecuperarAcesso: React.FC = () => {
             label="E-mail"
             variant="standard"
             style={{ width: "100%" }}
+            sx={authFieldSx}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -124,6 +127,7 @@ const RecuperarAcesso: React.FC = () => {
             label="Nova Senha"
             variant="standard"
             style={{ width: "100%", marginTop: 20 }}
+            sx={authFieldSx}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
@@ -134,6 +138,7 @@ const RecuperarAcesso: React.FC = () => {
             label="Confirmar Senha"
             variant="standard"
             style={{ width: "100%", marginTop: 20 }}
+            sx={authFieldSx}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

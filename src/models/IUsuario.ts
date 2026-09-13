@@ -7,7 +7,5 @@ export default interface IUsuario {
     dataUltimaAlteracao: string,
     email: string,
     senha: string,
-    status: boolean,
     avatar: string,
-    tipoUsuario: string
 }

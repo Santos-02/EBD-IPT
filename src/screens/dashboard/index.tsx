@@ -1,31 +1,42 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/header";
 import DashboardService from "../../services/DashboardService";
 import { tokens } from "../../theme";
 import {
   Box,
-  Chip,
   Button,
   Typography,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import {
   Cell,
   Bar,
   Pie,
   PieChart,
   BarChart,
-  Legend,
   XAxis,
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip as ChartTooltip,
 } from "recharts";
-import { Group, Groups, Event, ArrowForward } from "@mui/icons-material";
+import socUCP from "../../assets/UCP.png";
+import socUPA from "../../assets/UPA.png";
+import socUMP from "../../assets/UMP.png";
+import socUPH from "../../assets/UPH.png";
+import socSAF from "../../assets/SAF.png";
+
+const SOCIEDADES = ["UCP", "UPA", "UMP", "UPH", "SAF"];
+
+const SOCIEDADE_IMAGENS: Record<string, string> = {
+  UCP: socUCP,
+  UPA: socUPA,
+  UMP: socUMP,
+  UPH: socUPH,
+  SAF: socSAF,
+};
 
 const SOCIEDADE_CORES: Record<string, string> = {
   UCP: "#1F6FEB",
@@ -35,164 +46,155 @@ const SOCIEDADE_CORES: Record<string, string> = {
   SAF: "#E2A03F",
 };
 
+const formatarDataCurta = (data: string) => {
+  const partes = data.split("-");
+  return `${partes[2]}/${partes[1]}`;
+};
+
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isDark = theme.palette.mode === "dark";
 
-  const [resumo, setResumo] = useState<any>({});
   const [porSociedade, setPorSociedade] = useState<any[]>([]);
-  const [membrosRecentes, setMembrosRecentes] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [presencasPorData, setPresencasPorData] = useState<any[]>([]);
 
   useEffect(() => {
-    DashboardService.listarResumo().then(setResumo);
-    DashboardService.listarMembrosPorSociedade().then(setPorSociedade);
-    DashboardService.listarMembrosRecentes()
-      .then(setMembrosRecentes)
-      .finally(() => setLoading(false));
+    DashboardService.listarMembrosPorSociedade().then((data: any) =>
+      setPorSociedade(Array.isArray(data) ? data : [])
+    );
+    DashboardService.listarPresencasPorData().then((data: any) =>
+      setPresencasPorData(Array.isArray(data) ? data : [])
+    );
   }, []);
 
-  const cards = [
-    {
-      title: "Total de Membros",
-      value: resumo.totalMembros ?? 0,
-      icon: <Group />,
-      color: colors.primary[500],
-    },
-    {
-      title: "Sociedades",
-      value: porSociedade.filter((item) => item.total > 0).length,
-      icon: <Groups />,
-      color: colors.greenAccent[500],
-    },
-    {
-      title: "Usuários Ativos",
-      value: resumo.usuariosAtivos ?? 0,
-      icon: <Event />,
-      color: colors.blueAccent[400],
-    },
-  ];
+  const sociedades = Array.isArray(porSociedade) ? porSociedade : [];
+  const presencas = Array.isArray(presencasPorData) ? presencasPorData : [];
 
-  const columns: any = [
-    {
-      field: "name",
-      headerName: "Nome",
-      flex: 1,
-      cellClassName: "nome-column--cell",
-    },
-    {
-      field: "society",
-      headerName: "Sociedade",
-      flex: 1,
-      renderCell: (params: any) => (
-        <Chip
-          label={params.value}
-          size="small"
-          sx={{
-            color: "white",
-            fontWeight: "bold",
-            backgroundColor: SOCIEDADE_CORES[params.value] || colors.grey[500],
-          }}
-        />
-      ),
-    },
-  ];
+  const totalPorSociedade = (sociedade: string) =>
+    sociedades.find((item) => item.society === sociedade)?.total ?? 0;
 
   return (
-    <Box m={{ xs: 1.5, sm: 2.5 }}>
-      <Header title="Dashboard" subtitle="Visão geral da Escola Bíblica Dominical" />
+    <Box sx={{ m: { xs: 1.5, sm: 2.5 } }}>
+      <Header title="Dashboard" />
 
-      {/* Cards de resumo */}
       <Box
-        display="grid"
-        gap="30px"
-        gridTemplateColumns="repeat(12, 1fr)"
-        sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 12" } }}
+        sx={{
+          display: "grid",
+          gap: "20px",
+          gridTemplateColumns: {
+            xs: "repeat(2, 1fr)",
+            sm: "repeat(3, 1fr)",
+            md: "repeat(5, 1fr)",
+          },
+        }}
       >
-        {cards.map((card) => (
-          <Box
-            key={card.title}
-            gridColumn="span 4"
-            minHeight="120px"
-            backgroundColor={theme.palette.background.paper}
-            borderRadius="10px"
-            boxShadow="0px 2px 10px rgba(0,0,0,0.15)"
-            p="20px"
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+        {SOCIEDADES.map((sociedade) => (
+          <Button
+            key={sociedade}
+            fullWidth
+            variant="contained"
+            onClick={() => navigate(`/controle-presenca/${sociedade}`)}
+            sx={{
+              backgroundColor: isDark ? colors.grey[700] : "#00311D",
+              color: "#ffffff",
+              borderRadius: "10px",
+              py: "24px",
+              px: "12px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+              boxShadow: "0px 2px 10px rgba(0,0,0,0.15)",
+              "&:hover": {
+                backgroundColor: isDark ? colors.grey[600] : "#002b19",
+              },
+            }}
           >
-            <Box>
-              <Typography variant="h3" color={colors.grey[100]} fontWeight="bold">
-                {card.value}
-              </Typography>
-              <Typography variant="h5" color={colors.grey[100]}>
-                {card.title}
-              </Typography>
-            </Box>
             <Box
-              bgcolor={card.color}
-              width="50px"
-              height="50px"
-              borderRadius="50%"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              color="white"
-            >
-              {card.icon}
-            </Box>
-          </Box>
+              component="img"
+              src={SOCIEDADE_IMAGENS[sociedade]}
+              alt={`Sociedade ${sociedade}`}
+              sx={{
+                width: 56,
+                height: 56,
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+            <Typography sx={{ fontSize: 20, fontWeight: "bold", lineHeight: 1 }}>
+              {sociedade}
+            </Typography>
+            <Typography sx={{ fontSize: 13, lineHeight: 1, opacity: 0.9 }}>
+              {totalPorSociedade(sociedade)} membro(s)
+            </Typography>
+          </Button>
         ))}
       </Box>
 
       {/* Gráficos */}
       <Box
-        display="grid"
-        gap="30px"
-        gridTemplateColumns="repeat(12, 1fr)"
-        mt="30px"
-        sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 12" } }}
+        sx={{
+          display: "grid",
+          gap: "30px",
+          gridTemplateColumns: "repeat(12, 1fr)",
+          mt: "30px",
+        }}
       >
         <Box
-          gridColumn="span 8"
-          backgroundColor={theme.palette.background.paper}
-          borderRadius="10px"
-          boxShadow="0px 2px 10px rgba(0,0,0,0.15)"
-          p="20px"
-          height={{ xs: "260px", sm: "380px" }}
+          sx={{
+            gridColumn: { xs: "span 12", md: "span 8" },
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: "10px",
+            boxShadow: "0px 2px 10px rgba(0,0,0,0.15)",
+            p: "20px",
+            height: { xs: "260px", sm: "380px" },
+          }}
         >
-          <Typography variant="h4" fontWeight="bold" mb="20px">
-            Membros por Sociedade
+          <Typography variant="h4" sx={{ fontWeight: "bold", mb: "20px" }}>
+            Presenças por Data
           </Typography>
           <ResponsiveContainer width="100%" height="90%">
-            <BarChart data={porSociedade}>
+            <BarChart data={presencas}>
               <CartesianGrid strokeDasharray="3 3" stroke={colors.grey[800]} />
-              <XAxis dataKey="society" stroke={colors.grey[100]} />
+              <XAxis
+                dataKey="date"
+                stroke={colors.grey[100]}
+                tickFormatter={formatarDataCurta}
+              />
               <YAxis stroke={colors.grey[100]} allowDecimals={false} />
-              <ChartTooltip />
-              <Legend />
-              <Bar dataKey="total" name="Membros" fill="#1F6FEB" radius={[4, 4, 0, 0]} />
+              <ChartTooltip
+                formatter={(value: any) => [value, "Presentes"]}
+                labelFormatter={(label: any) => label.split("-").reverse().join("/")}
+              />
+              <Bar
+                dataKey="total"
+                name="Presentes"
+                fill={isDark ? colors.grey[400] : "#00311D"}
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </Box>
 
         <Box
-          gridColumn="span 4"
-          backgroundColor={theme.palette.background.paper}
-          borderRadius="10px"
-          boxShadow="0px 2px 10px rgba(0,0,0,0.15)"
-          p="20px"
-          height={{ xs: "260px", sm: "380px" }}
+          sx={{
+            gridColumn: { xs: "span 12", md: "span 4" },
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: "10px",
+            boxShadow: "0px 2px 10px rgba(0,0,0,0.15)",
+            p: "20px",
+            height: { xs: "260px", sm: "380px" },
+          }}
         >
-          <Typography variant="h4" fontWeight="bold" mb="20px">
-            Distribuição
+          <Typography variant="h4" sx={{ fontWeight: "bold", mb: "20px" }}>
+            Membros por Sociedade
           </Typography>
           <ResponsiveContainer width="100%" height="90%">
             <PieChart>
               <Pie
-                data={porSociedade}
+                data={sociedades}
                 dataKey="total"
                 nameKey="society"
                 cx="50%"
@@ -200,50 +202,16 @@ const Dashboard = () => {
                 outerRadius={isNonMobile ? 100 : 70}
                 label={(entry: any) => entry.society}
               >
-                {porSociedade.map((item) => (
+                {sociedades.map((item) => (
                   <Cell
                     key={item.society}
-                    fill={SOCIEDADE_CORES[item.society] || colors.grey[500]}
+                    fill={isDark ? colors.grey[500] : SOCIEDADE_CORES[item.society]}
                   />
                 ))}
               </Pie>
               <ChartTooltip />
             </PieChart>
           </ResponsiveContainer>
-        </Box>
-      </Box>
-
-      {/* Lista de membros recentes */}
-      <Box
-        backgroundColor={theme.palette.background.paper}
-        borderRadius="10px"
-        boxShadow="0px 2px 10px rgba(0,0,0,0.15)"
-        p="20px"
-        mt="30px"
-      >
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h4" fontWeight="bold">
-            Membros Recentes
-          </Typography>
-          <Link to="/membros" style={{ textDecoration: "none" }}>
-            <Button
-              sx={{ fontSize: "13px", fontWeight: "bold", padding: "8px 16px" }}
-            >
-              Ver Todos
-              <ArrowForward sx={{ ml: "6px" }} />
-            </Button>
-          </Link>
-        </Box>
-
-        <Box mt="10px" minHeight="30vh">
-          <DataGrid
-            rows={membrosRecentes}
-            columns={columns}
-            rowCount={membrosRecentes.length}
-            loading={loading}
-            disableColumnMenu
-            autoHeight
-          />
         </Box>
       </Box>
     </Box>

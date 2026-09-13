@@ -1,132 +1,147 @@
-import logo from "../../assets/logo.png";
+import logo from "../../assets/image.jpg";
 import { useState, useContext } from "react";
 import AuthContext from "../../context/auth";
-import { useNavigate } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useTheme, Box, useMediaQuery } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
-const SidebarCustom = () => {
+const SidebarCustom = ({ onMobileClose }: any) => {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const location = useLocation();
+    const isMobile = useMediaQuery("(max-width:599px)");
 
-    const [selected, setSelected] = useState("Dashboard");
     const [isCollapsed, setIsCollapsed] = useState(false);
     const signOutClearAll = useContext(AuthContext)?.signOutClearAll;
 
-    const Item = ({ title, to, icon, selected, setSelected }: any) => {
+    const isDark = theme.palette.mode === "dark";
+
+    const pathname = location.pathname;
+    let selected = "";
+    if (pathname === "/dashboard" || pathname.startsWith("/controle-presenca")) {
+        selected = "Dashboard";
+    } else if (pathname.startsWith("/membros") || pathname.startsWith("/cadastrar-membro")) {
+        selected = "Membros";
+    } else if (pathname.startsWith("/usuarios")) {
+        selected = "Usuários";
+    }
+
+    const Item = ({ title, to, icon }: any) => {
         return (
             <MenuItem
                 active={selected === title}
-                onClick={() => {
-                    setSelected(title), navigate(to);
-                }}
+                onClick={() => navigate(to)}
                 style={{
-                    backgroundColor: selected === title ? "rgba(200,200,200,0.2)" : "",
+                    position: "relative",
+                    color: selected === title ? "#ffffff" : "inherit",
+                    backgroundColor:
+                        selected === title
+                            ? isDark
+                                ? "rgba(255,255,255,0.18)"
+                                : "#00311D"
+                            : "",
                 }}
                 icon={isCollapsed && selected === title ? "" : icon}
             >
                 {!isCollapsed && (
-                    <Typography fontSize={16} fontWeight={600}>
+                    <Box sx={{ fontSize: 16, fontWeight: 600 }}>
                         {title}
-                    </Typography>
-                )}
-                {selected === title && (
-                    <ArrowCircleRightIcon
-                        fontSize="large"
-                        style={{ position: "absolute", right: 20, top: 7 }}
-                    />
+                    </Box>
                 )}
             </MenuItem>
         );
     };
 
     return (
-        <Sidebar collapsed={isCollapsed}>
+        <Sidebar
+            collapsed={isCollapsed}
+            backgroundColor={theme.palette.background.paper}
+        >
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    minHeight: "100vh",
+                }}
+            >
                 <Menu>
                     <MenuItem
-                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        onClick={() =>
+                            isMobile
+                                ? onMobileClose?.()
+                                : setIsCollapsed(!isCollapsed)
+                        }
                         style={{
                             margin: "10px 0 0 0",
+                            display: "flex",
+                            justifyContent: "center",
                         }}
                     >
-                        <Box display="flex" sx={{ gap: 3 }} alignItems="center" ml="10px">
-                            <img style={{ width: 25 }} src={logo} alt="logo" />
-                            <Typography fontSize={16} fontWeight={"bold"}>
-                                EBD
-                            </Typography>
-                        </Box>
+                        <img
+                            style={{
+                                width: isCollapsed ? 50 : 45,
+                                height: isCollapsed ? 50 : 45,
+                                borderRadius: 8,
+                                objectFit: "cover",
+                            }}
+                            src={logo}
+                            alt="logo"
+                        />
                     </MenuItem>
 
-                    <Box style={{ borderTop: "1px solid lightgray", marginTop: 28 }}>
-
+                    <Box className="sidebar-divider">
                         <Item
                             title="Dashboard"
                             to="/dashboard"
                             icon={<DashboardIcon fontSize="medium" />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-
-                        <Item
-                            title="Calendário"
-                            to="/calendario"
-                            icon={<CalendarMonthIcon fontSize="medium" />}
-                            selected={selected}
-                            setSelected={setSelected}
                         />
 
                         <Item
                             title="Membros"
                             to="/membros"
                             icon={<MenuBookIcon fontSize="medium" />}
-                            selected={selected}
-                            setSelected={setSelected}
                         />
 
                         <Item
                             title="Usuários"
                             to="/usuarios"
                             icon={<PeopleOutlinedIcon fontSize="medium" />}
-                            selected={selected}
-                            setSelected={setSelected}
                         />
                     </Box>
                 </Menu>
 
-                <Box display={"flex"} position="fixed" sx={{ bottom: 30 }}>
+                <Box
+                    className="sidebar-footer"
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "left",
+                        mt: "auto",
+                    }}
+                >
                     <LogoutIcon
                         onClick={() => {
                             signOutClearAll?.();
-                            navigate("/");
+                            navigate("/login");
                         }}
                         sx={{
-                            marginLeft: !isCollapsed ? 5 : 2,
                             backgroundColor: "black",
-                            alignSelf: "center",
-                            height: 50,
-                            width: 50,
-                            padding: 2,
+                            height: 40,
+                            width: 40,
+                            padding: 1.2,
                             borderRadius: 8,
                             color: "white",
+                            cursor: "pointer",
                         }}
                     />
-                    {!isCollapsed && (
-                        <Typography
-                            marginTop={2}
-                            marginLeft={1}
-                            variant="h5"
-                            fontWeight="600"
-                        >
-                            Sair
-                        </Typography>
-                    )}
                 </Box>
-            </Sidebar>
+            </div>
+        </Sidebar>
         );
 };
 

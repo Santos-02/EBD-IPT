@@ -34,8 +34,6 @@ const login = async (usuario: any) => {
                 telefone: data[0].phone,
                 dataCadastro: data[0].created_at,            
                 email: data[0].email,
-                status: data[0].status,
-                tipoUsuario: data[0].role,
             }
 
             return newUser;
@@ -65,8 +63,6 @@ const listarUsuarios = async (filtros: any) => {
                 query = query.ilike("name_ascii", `%${value}%`);
             } else if (key === "email") {
                 query = query.ilike("email_ascii", `%${value}%`);
-            } else if (key === "status") {
-                query = query.eq(key, value);
             }
         }
 
@@ -89,7 +85,11 @@ const salvarUsuario = async (usuario: any) => {
           } = await supabase.auth.signUp({
             email: usuario.email,
             password: usuario.senha,
-            
+            options: {
+                data: {
+                    name: usuario.nome,
+                },
+            },
             })
       
           if (error) return error.message
@@ -102,7 +102,6 @@ const salvarUsuario = async (usuario: any) => {
                 name: usuario.nome, 
                 phone: usuario.telefone,  
                 email: usuario.email,
-                role: usuario.tipoUsuario || 'user',
             });
 
             if (error) {
@@ -115,8 +114,6 @@ const salvarUsuario = async (usuario: any) => {
                 telefone: usuario.telefone,
                 dataCadastro: moment.now(),            
                 email: usuario.email,
-                status: true,
-                tipoUsuario: usuario.tipoUsuario || 'user',
             }
 
             return newUser;
@@ -135,7 +132,9 @@ const salvarUsuario2 = async (usuario: any) => {
           } = await supabase.auth.admin.createUser({
             email: usuario.email,
             password: usuario.senha,
-            
+            user_metadata: {
+                name: usuario.nome,
+            },
             })
       
           if (error) return error.message
@@ -148,7 +147,6 @@ const salvarUsuario2 = async (usuario: any) => {
                 name: usuario.nome, 
                 phone: usuario.telefone,  
                 email: usuario.email,
-                role: usuario.tipoUsuario || 'user',
             });
 
             if (error) {
@@ -161,8 +159,6 @@ const salvarUsuario2 = async (usuario: any) => {
                 telefone: usuario.telefone,
                 dataCadastro: moment.now(),            
                 email: usuario.email,
-                status: true,
-                tipoUsuario: usuario.tipoUsuario || 'user',
             }
 
             return newUser;
@@ -179,8 +175,7 @@ const editarUsuario = async (usuarioId: string, usuario: any) => {
         .from('users')
         .update({ 
             name: usuario.nome, 
-            phone: usuario.telefone,  
-            document: usuario.documento, 
+            phone: usuario.telefone, 
         }).eq('id',  usuarioId);
 
         if (error) {

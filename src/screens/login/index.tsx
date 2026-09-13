@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/image.jpg";
 import AuthContext from "../../context/auth";
 import { useNavigate } from "react-router-dom";
 import background from "../../assets/image.jpg";
@@ -17,6 +17,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import UsuarioService from "../../services/UsuarioService";
+import { authFieldSx } from "../../utils/authFieldStyles";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -67,39 +68,36 @@ const Login: React.FC = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
-        alignItems: "center",
-        backgroundSize: "cover",
+        flexDirection: "column",
         justifyContent: "center",
+        backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundImage: `url(${background})`,
         overflowY: "auto",
+        py: { xs: 3, sm: 4 },
         px: { xs: 2, sm: 0 },
       }}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        style={{ width: "100%", display: "flex", justifyContent: "center", margin: "auto" }}
       >
         <Card
           sx={{
             width: "100%",
             maxWidth: isNonMobile ? 390 : "100%",
-            backgroundColor: "#FBF7F4",
+            backgroundColor: "#FFFFFF",
             borderRadius: 10,
             padding: { xs: 3, sm: 5 },
             textAlign: "center",
           }}
         >
           <div style={{ alignItems: "center", textAlign: "center" }}>
-            <img style={{ width: 100 }} src={logo} alt="logo" />
+            <img style={{ width: 150, paddingBottom: 30 }} src={logo} alt="logo" />
           </div>
-
-          <Typography color="#ADADAD" fontSize={30}>
-            Bem-vindo!
-          </Typography>
 
           <TextField
             id="Email-basic"
@@ -107,6 +105,7 @@ const Login: React.FC = () => {
             label="E-mail"
             variant="standard"
             style={{ width: "100%" }}
+            sx={authFieldSx}
             error={!!errors.email}
             helperText={errors.email ? "Email é obrigatório" : ""}
             {...register("email", {
@@ -120,6 +119,7 @@ const Login: React.FC = () => {
             label="Senha"
             variant="standard"
             style={{ width: "100%", marginTop: 20 }}
+            sx={authFieldSx}
             error={!!errors.senha}
             helperText={errors.senha ? "Senha é obrigatória" : ""}
             {...register("senha", {
@@ -157,14 +157,6 @@ const Login: React.FC = () => {
               "Login"
             )}
           </Button>
-          <a
-            className="linkLogin"
-            onClick={() => {
-              navigate("/cadastrar");
-            }}
-          >
-            Cadastrar-se
-          </a>
         </Card>
       </form>
       <Box
@@ -180,10 +172,10 @@ const Login: React.FC = () => {
       >
         <Container maxWidth="sm">
           <Typography
-            sx={{ color: "white", textAlign: "center" }}
+            sx={{ color: "grey", textAlign: "center" }}
             variant="body1"
           >
-            2024 - Desenvolvido por Neves369©, todos os direitos reservados.
+            2026 - Desenvolvido por Santos-02©, todos os direitos reservados.
           </Typography>
         </Container>
       </Box>

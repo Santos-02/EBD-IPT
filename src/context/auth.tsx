@@ -4,6 +4,7 @@ import type IUsuario from "../models/IUsuario";
 
 export interface AuthContextData {
   signed: boolean;
+  hydrated: boolean;
   user: IUsuario | undefined;
   signIn(usuario: IUsuario): void;
   signOutClearAll(): void;
@@ -17,8 +18,6 @@ interface UsuarioRow {
   phone: string;
   created_at: string;
   email: string;
-  status: boolean;
-  role: string;
 }
 
 const mapRowToUsuario = (row: UsuarioRow): IUsuario => ({
@@ -30,9 +29,7 @@ const mapRowToUsuario = (row: UsuarioRow): IUsuario => ({
   dataUltimaAlteracao: "",
   email: row.email,
   senha: "",
-  status: row.status,
   avatar: "",
-  tipoUsuario: row.role,
 });
 
 const fetchUsuarioBySession = async (userId: string): Promise<IUsuario | null> => {
@@ -51,6 +48,7 @@ const fetchUsuarioBySession = async (userId: string): Promise<IUsuario | null> =
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [signed, setSigned] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const [user, setUser] = useState<IUsuario | undefined>(undefined);
 
   useEffect(() => {
@@ -66,6 +64,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setSigned(false);
           setUser(undefined);
         }
+        if (active) {
+          setHydrated(true);
+        }
         return;
       }
 
@@ -73,6 +74,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (active && usuario) {
         setUser(usuario);
         setSigned(true);
+      }
+      if (active) {
+        setHydrated(true);
       }
     };
 
@@ -88,6 +92,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else if (active) {
         setSigned(false);
         setUser(undefined);
+      }
+      if (active) {
+        setHydrated(true);
       }
     });
 
@@ -112,6 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         signed,
+        hydrated,
         user,
         signIn,
         signOutClearAll,

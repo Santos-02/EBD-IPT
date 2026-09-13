@@ -1,17 +1,17 @@
 import supabase from "../api/supabaseClient";
-import exceptionHandler from "../utils/ExceptionHandler";
 
 const SOCIEDADES = ["UCP", "UPA", "UMP", "UPH", "SAF"];
 
 // Retorna a contagem de membros por sociedade para os gráficos
 const listarMembrosPorSociedade = async () => {
     try {
-        const { data, error } = await supabase
-            .from('members')
+const { data, error } = await supabase
+            .from('member')
             .select('society');
 
         if (error) {
-            return error.message;
+            console.error(error.message);
+            return [];
         }
 
         return SOCIEDADES.map((sociedade) => ({
@@ -19,57 +19,73 @@ const listarMembrosPorSociedade = async () => {
             total: data.filter((item: any) => item.society === sociedade).length,
         }));
     } catch (error) {
-        return exceptionHandler(error);
+        console.error(error);
+        return [];
     }
 };
 
-// Retorna a contagem de membros (total e ativos) e usuários
+// Retorna a contagem de membros e usuários
 const listarResumo = async () => {
     try {
         const [membros, usuarios] = await Promise.all([
-            supabase.from('members').select('id', { count: 'exact', head: true }),
-            supabase.from('users').select('status'),
+            supabase.from('member').select('id', { count: 'exact', head: true }),
+            supabase.from('users').select('id', { count: 'exact', head: true }),
         ]);
 
         if (membros.error) {
-            return membros.error.message;
+            console.error(membros.error.message);
+            return { totalMembros: 0, totalUsuarios: 0 };
         }
 
         if (usuarios.error) {
-            return usuarios.error.message;
+            console.error(usuarios.error.message);
+            return { totalMembros: 0, totalUsuarios: 0 };
         }
 
         return {
             totalMembros: membros.count,
-            totalUsuarios: usuarios.data.length,
-            usuariosAtivos: usuarios.data.filter((item: any) => item.status === true).length,
+            totalUsuarios: usuarios.count,
         };
     } catch (error) {
-        return exceptionHandler(error);
+        console.error(error);
+        return { totalMembros: 0, totalUsuarios: 0 };
     }
 };
 
-// Retorna os membros cadastrados mais recentemente
-const listarMembrosRecentes = async () => {
+// Retorna o total de presenças por data (últimas N datas, ordenado cronologicamente)
+const listarPresencasPorData = async (limite = 15) => {
     try {
         const { data, error } = await supabase
-            .from('members')
-            .select('*')
-            .order('created_at', { ascending: false })
-            .limit(5);
+            .from('attendance')
+            .select('date');
 
         if (error) {
-            return error.message;
+            console.error(error.message);
+            return [];
         }
 
-        return data;
+        if (!Array.isArray(data)) {
+            return [];
+        }
+
+        const totais: Record<string, number> = {};
+        data.forEach((item: any) => {
+            totais[item.date] = (totais[item.date] || 0) + 1;
+        });
+
+        return Object.keys(totais)
+            .map((date) => ({ date, total: totais[date] }))
+            .sort((a, b) => (a.date > b.date ? -1 : 1))
+            .slice(0, limite)
+            .sort((a, b) => (a.date < b.date ? -1 : 1));
     } catch (error) {
-        return exceptionHandler(error);
+        console.error(error);
+        return [];
     }
 };
 
 export default {
     listarMembrosPorSociedade,
     listarResumo,
-    listarMembrosRecentes,
+    listarPresencasPorData,
 };

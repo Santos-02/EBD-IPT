@@ -10,59 +10,59 @@ export const tokens = (mode: any) => ({
   ...(mode === "dark"
     ? {
         grey: {
-          100: "#d6d6d6",
-          200: "#b8b8b8",
-          300: "#9b9b9b",
-          400: "#7d7d7d",
-          500: "#606060",
-          600: "#4a4a4a",
-          700: "#343434",
-          800: "#1f1f1f",
-          900: "#121212", // Mais escuro para fundo
+          100: "#ededed",
+          200: "#d4d4d4",
+          300: "#b8b8b8",
+          400: "#9e9e9e",
+          500: "#808080",
+          600: "#666666",
+          700: "#4d4d4d",
+          800: "#363636",
+          900: "#1f1f1f",
         },
         primary: {
-          100: "#cdd2d8",
-          200: "#9aa5b2",
-          300: "#67788c",
-          400: "#344b66",
-          500: "#1e324c", // Ajustado para um tom mais profundo
-          600: "#19283d",
-          700: "#141e2f",
-          800: "#0f1420",
-          900: "#0a0a11",
+          100: "#ffffff",
+          200: "#e0e0e0",
+          300: "#c2c2c2",
+          400: "#a3a3a3",
+          500: "#7a7a7a",
+          600: "#5c5c5c",
+          700: "#424242",
+          800: "#2b2b2b",
+          900: "#1b1b1b",
         },
         greenAccent: {
-          100: "#d2f2e6",
-          200: "#a6e5cd",
-          300: "#79d8b3",
-          400: "#4dca9a",
-          500: "#2ebf82", // Mais equilibrado para o dark mode
-          600: "#24976a",
-          700: "#1b7052",
-          800: "#12483a",
-          900: "#092020",
+          100: "#f1f1f1",
+          200: "#d9d9d9",
+          300: "#bdbdbd",
+          400: "#a1a1a1",
+          500: "#858585",
+          600: "#6b6b6b",
+          700: "#525252",
+          800: "#3a3a3a",
+          900: "#242424",
         },
         redAccent: {
-          100: "#f4cccc",
-          200: "#e89999",
-          300: "#dc6666",
-          400: "#d03333",
-          500: "#c40000", // Um vermelho mais vibrante no dark mode
-          600: "#9d0000",
-          700: "#760000",
-          800: "#500000",
-          900: "#2a0000",
+          100: "#f1f1f1",
+          200: "#d9d9d9",
+          300: "#bdbdbd",
+          400: "#a1a1a1",
+          500: "#858585",
+          600: "#6b6b6b",
+          700: "#525252",
+          800: "#3a3a3a",
+          900: "#242424",
         },
         blueAccent: {
-          100: "#cfdffe",
-          200: "#9fbefe",
-          300: "#6f9dfe",
-          400: "#3f7cfe",
-          500: "#1f5bf8", // Azul mais vibrante e contrastante
-          600: "#1849c6",
-          700: "#123794",
-          800: "#0c2562",
-          900: "#061330",
+          100: "#f1f1f1",
+          200: "#d9d9d9",
+          300: "#bdbdbd",
+          400: "#a1a1a1",
+          500: "#858585",
+          600: "#6b6b6b",
+          700: "#525252",
+          800: "#3a3a3a",
+          900: "#242424",
         },
       }
     : {
@@ -78,26 +78,26 @@ export const tokens = (mode: any) => ({
           900: "#e0e0e0",
         },
         primary: {
-          100: "#040509",
-          200: "#080b12",
-          300: "#0c101b",
-          400: "#f2f0f0",
-          500: "#000000",
-          600: "#1F2A40",
-          700: "#727681",
-          800: "#a1a4ab",
-          900: "#d0d1d5",
+          100: "#e7f1ec",
+          200: "#b6d2c3",
+          300: "#7da791",
+          400: "#4b7f64",
+          500: "#00311D", // Identidade visual no modo claro
+          600: "#002b19",
+          700: "#002416",
+          800: "#001d11",
+          900: "#00160c",
         },
         greenAccent: {
-          100: "#0f2922",
-          200: "#1e5245",
-          300: "#2e7c67",
-          400: "#3da58a",
-          500: "#4cceac",
-          600: "#70d8bd",
-          700: "#94e2cd",
-          800: "#b7ebde",
-          900: "#dbf5ee",
+          100: "#e6faf2",
+          200: "#bcead7",
+          300: "#8fd6b8",
+          400: "#5cbf96",
+          500: "#2f9d6e",
+          600: "#1f7f57",
+          700: "#136245",
+          800: "#094830",
+          900: "#043018",
         },
         redAccent: {
           100: "#2c100f",
@@ -132,28 +132,26 @@ export const themeSettings = (mode: any) => {
       mode: mode,
       ...(mode === "dark"
         ? {
-            // Paleta para Dark Mode
             primary: {
-              main: colors.primary[400], // Ajustado para melhor legibilidade
+              main: colors.primary[200],
             },
             label: {
-              main: colors.primary[200], // Melhor visibilidade de textos e ícones
+              main: colors.primary[100],
             },
             secondary: {
-              main: colors.greenAccent[400], // Um verde menos saturado para equilíbrio
+              main: colors.greenAccent[400],
             },
             neutral: {
-              dark: colors.grey[800], // Mais contraste para elementos em destaque
+              dark: colors.grey[800],
               main: colors.grey[500],
               light: colors.grey[300],
             },
             background: {
-              default: "#121212", // Fundo mais confortável para o modo escuro
-              paper: "#1E1E1E", // Melhorando o contraste de cartões/dialogs
+              default: "#151515",
+              paper: "#1e1e1e",
             },
           }
         : {
-            // Paleta para Light Mode
             primary: {
               main: colors.primary[500],
             },
@@ -169,7 +167,7 @@ export const themeSettings = (mode: any) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#f6f7f6",
               paper: "#ffffff",
             },
           }),
@@ -180,14 +178,14 @@ export const themeSettings = (mode: any) => {
       h1: {
         fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 40,
-        fontWeight: 700, // Melhora a legibilidade no dark mode
+        fontWeight: 700,
         color: mode === "dark" ? colors.grey[100] : colors.grey[900],
       },
       h2: {
         fontFamily: ["Poppins", "sans-serif"].join(","),
         fontSize: 32,
         fontWeight: 600,
-        color: mode === "dark" ? colors.grey[200] : colors.grey[800],
+        color: mode === "dark" ? colors.grey[200] : colors.primary[500],
       },
       h3: {
         fontFamily: ["Poppins", "sans-serif"].join(","),

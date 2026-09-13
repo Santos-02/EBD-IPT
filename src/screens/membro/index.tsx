@@ -1,44 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { localizedTextsMap } from "../../utils/localeTextTable";
 
 import {
   Box,
   Modal,
   Button,
-  Divider,
-  Accordion,
-  TextField,
-  Typography,
   IconButton,
   useMediaQuery,
-  AccordionDetails,
-  AccordionSummary,
 } from "@mui/material";
 
-import { useForm } from "react-hook-form";
 import { Edit } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
-import LivroService from "../../services/MembroService";
+import MembroService from "../../services/MembroService";
 import CustomToolbar from "../../components/CustomMui/CustomToolbar";
 
-// teste
 const Membros = () => {
   const navigate = useNavigate();
-  const [membros, setMembros] = useState([]);
+  const [membros, setMembros] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
-  const { register, handleSubmit } = useForm();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [membroSelecionado, setMembroSelecionado] = useState<any>();
+  const [membroSelecionado] = useState<any>(null);
+
+  // Busca os membros automaticamente ao abrir a tela
+  useEffect(() => {
+    let active = true;
+    MembroService.listarMembros({})
+      .then((resp) => {
+        if (active) setMembros(Array.isArray(resp) ? resp : []);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // colunas exibidas na lista
   const columns: any = [
-    // { field: "id", headerName: "ID", flex: 0.5 },
     {
       field: "name",
       headerName: "Nome",
@@ -70,22 +77,6 @@ const Membros = () => {
     },
   ];
 
-  // Pesquisar Membros
-  const pesquisar = (values: any) => {
-    setLoading(true);
-
-    LivroService.listarMembros(values)
-      .then((resp) => {
-        setMembros(resp);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   // Editar Membro
   const MatEdit = ({ index }: any) => {
     const handleEditClick = () => {
@@ -102,33 +93,16 @@ const Membros = () => {
   };
 
   return (
-    <Box m={{ xs: 1.5, sm: 2.5 }}>
+    <Box sx={{ m: { xs: 1.5, sm: 2.5 } }}>
       {/* Header */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Membros"
-        //   subtitle="Explore o acervo literário da biblioteca 📖"
         />
 
         {isNonMobile && (
           <Box>
-            <Button
-              sx={{
-                fontSize: "14px",
-                fontWeight: "bold",
-                padding: "10px 20px",
-                marginRight: 1,
-              }}
-              onClick={() => {
-                document.getElementById("btn_filter")?.click();
-              }}
-            >
-              <SearchIcon sx={{ mr: "10px" }} />
-              Pesquisar
-            </Button>
-            {/* {user.tipoUsuario == "master" && ( */}
               <Link
-                to={"/cadastrar-livro"}
+                to={"/cadastrar-membro"}
                 style={{ textDecoration: "none", marginRight: 1 }}
               >
                 <Button
@@ -145,28 +119,12 @@ const Membros = () => {
             {/* )} */}
           </Box>
         )}
-      </Box>
       {/*  */}
 
       {!isNonMobile && (
-        <Box display="flex">
-          <Button
-            sx={{
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              marginRight: 1,
-            }}
-            onClick={() => {
-              document.getElementById("btn_filter")?.click();
-            }}
-          >
-            <SearchIcon sx={{ mr: "10px" }} />
-            Pesquisar
-          </Button>
-          {/* {user.tipoUsuario == "master" && ( */}
+        <Box sx={{ display: "flex" }}>
             <Link
-              to={"/cadastrar-livro"}
+              to={"/cadastrar-membro"}
               style={{ textDecoration: "none", marginRight: 1 }}
             >
               <Button
@@ -180,103 +138,17 @@ const Membros = () => {
                 Novo
               </Button>
             </Link>
-          {/* )} */}
         </Box>
       )}
 
-      {/* Filtros */}
-      <Box m="40px 0 0 0" minHeight="5vh">
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>Filtros</Typography>
-          </AccordionSummary>
-
-          <AccordionDetails>
-            <Divider />
-
-            <form id="form" onSubmit={handleSubmit(pesquisar)}>
-              <button
-                id="btn_filter"
-                type="submit"
-                style={{ display: "none" }}
-              />
-              <Box
-                display="grid"
-                gap="30px"
-                marginTop={2}
-                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                sx={{
-                  "& > div": {
-                    gridColumn: isNonMobile ? undefined : "span 4",
-                  },
-                }}
-              >
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Título"
-                  {...register("titulo", {
-                    required: false,
-                  })}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                {isNonMobile && <div style={{ gridColumn: "span 2" }}></div>}
-
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Autor"
-                  {...register("autor", {
-                    required: false,
-                  })}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                {isNonMobile && <div style={{ gridColumn: "span 2" }}></div>}
-
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Ano de Publicação"
-                  {...register("ano_publicacao", {
-                    required: false,
-                  })}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                {isNonMobile && <div style={{ gridColumn: "span 2" }}></div>}
-              </Box>
-            </form>
-          </AccordionDetails>
-        </Accordion>
-      </Box>
-      {/*  */}
-
       {/* Lista */}
-      <Box m="40px 0 0 0" minHeight="75vh">
+      <Box sx={{ m: "40px 0 0 0", minHeight: "75vh" }}>
         <DataGrid
           rows={membros}
           columns={columns}
-          rowCount={membros.length}
           localeText={localizedTextsMap}
-          slots={isNonMobile ? { toolbar: () => CustomToolbar(columns) } : {}}
-          initialState={{
-            columns: {
-              columnVisibilityModel: {
-                id: isNonMobile,
-                // capa: isNonMobile,
-                // ano_publicacao: isNonMobile,
-                // editar: user.tipoUsuario == "master",
-                ativar_inativar: isNonMobile,
-              },
-            },
-          }}
           loading={loading}
+          slots={isNonMobile ? { toolbar: () => CustomToolbar(columns) } : {}}
         />
       </Box>
       {/*  */}
