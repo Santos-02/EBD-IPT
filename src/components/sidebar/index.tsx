@@ -8,6 +8,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 const SidebarCustom = ({ onMobileClose }: any) => {
     const navigate = useNavigate();
@@ -26,6 +27,8 @@ const SidebarCustom = ({ onMobileClose }: any) => {
         selected = "Dashboard";
     } else if (pathname.startsWith("/membros") || pathname.startsWith("/cadastrar-membro")) {
         selected = "Membros";
+    } else if (pathname.startsWith("/relatorios")) {
+        selected = "Relatórios";
     } else if (pathname.startsWith("/usuarios")) {
         selected = "Usuários";
     }
@@ -105,6 +108,12 @@ const SidebarCustom = ({ onMobileClose }: any) => {
                             title="Membros"
                             to="/membros"
                             icon={<MenuBookIcon fontSize="medium" />}
+                        />
+
+                        <Item
+                            title="Relatórios"
+                            to="/relatorios"
+                            icon={<PictureAsPdfIcon fontSize="medium" />}
                         />
 
                         <Item

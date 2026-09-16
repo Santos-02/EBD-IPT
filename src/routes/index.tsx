@@ -5,6 +5,7 @@ import Usuarios from "../screens/usuario";
 import AuthContext from "../context/auth";
 import Sidebar from "../components/sidebar";
 import Dashboard from "../screens/dashboard";
+import Relatorios from "../screens/relatorios";
 import { MenuProvider } from "../context/menu";
 import { ColorModeContext, useMode } from "../theme";
 import CadastrarMembro from "../screens/membro/cadastrar";
@@ -75,6 +76,7 @@ const RoutesController: any = () => {
                     path="/controle-presenca/:sociedade"
                     element={<ControlePresenca />}
                   />
+                  <Route path="/relatorios" element={<Relatorios />} />
                   <Route path="/usuarios" element={<Usuarios />} />
                   <Route path="/cadastrar-membro" element={<CadastrarMembro />} />
                   <Route
