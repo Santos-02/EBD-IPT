@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import { autoTable } from "jspdf-autotable";
-import imageJpg from "../assets/image.jpg";
+import logo from "../assets/logo.png";
 
 const MESES = [
   "Janeiro",
@@ -22,7 +22,11 @@ const formatarDataBR = (dateStr: string): string => {
   return `${d}/${m}/${y}`;
 };
 
-const carregarImagem = (): Promise<string> => {
+const carregarImagem = (): Promise<{
+  dataUrl: string;
+  width: number;
+  height: number;
+}> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -33,26 +37,41 @@ const carregarImagem = (): Promise<string> => {
       const ctx = canvas.getContext("2d");
       if (!ctx) return reject(new Error("Falha ao carregar a imagem."));
       ctx.drawImage(img, 0, 0);
-      resolve(canvas.toDataURL("image/jpeg"));
+      resolve({
+        dataUrl: canvas.toDataURL("image/png"),
+        width: img.width,
+        height: img.height,
+      });
     };
     img.onerror = () => reject(new Error("Falha ao carregar a imagem."));
-    img.src = imageJpg;
+    img.src = logo;
   });
 };
 
-const adicionarCabecalho = (doc: jsPDF, imagem: string, subtitulo: string) => {
+const adicionarCabecalho = (
+  doc: jsPDF,
+  imagem: { dataUrl: string; width: number; height: number },
+  subtitulo: string
+) => {
   const pageWidth = doc.internal.pageSize.getWidth();
 
-  doc.addImage(imagem, "JPEG", 15, 15, 25, 25);
+  const maxW = 25;
+  const maxH = 22;
+  const escala = Math.min(maxW / imagem.width, maxH / imagem.height);
+  const logoW = imagem.width * escala;
+  const logoH = imagem.height * escala;
+  const logoY = 30 - logoH / 2;
+
+  doc.addImage(imagem.dataUrl, "PNG", 15, logoY, logoW, logoH);
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
-  doc.text("Relatório de presenças na", 48, 24);
-  doc.text("Escola Bíblica Dominical", 48, 32);
+  doc.text("Igreja Presbiteriana de Teresópolis", 50, 32);
+  doc.text("Relatório de presenças na EBD", 50, 24);
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(11);
-  doc.text(subtitulo, 48, 40);
+  doc.text(subtitulo, 50, 40);
 
   doc.setDrawColor(0, 49, 29);
   doc.setLineWidth(0.5);
