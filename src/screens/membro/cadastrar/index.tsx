@@ -87,7 +87,7 @@ const CadastrarMembro = () => {
   };
 
   return (
-    <Box m={{ xs: 1.5, sm: 2.5 }}>
+    <Box sx={{ m: { xs: 1.5, sm: 2.5 } }}>
       <Header
         title={state ? "Editar Membro" : "Cadastrar Membro"}
         subtitle={state ? `Membro ID ${state.id}` : ""}
@@ -99,10 +99,10 @@ const CadastrarMembro = () => {
       <TabPanel value={0} index={0}>
         <form onSubmit={handleSubmit(state ? editar : salvar)}>
           <Box
-            display="grid"
-            gap="30px"
-            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
             sx={{
+              display: "grid",
+              gap: "30px",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
               "& > div": {
                 gridColumn: isNonMobile ? undefined : "span 4",
               },
@@ -149,7 +149,7 @@ const CadastrarMembro = () => {
             </TextField>
           </Box>
 
-          <Box display="flex" justifyContent="end" mt="20px">
+          <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
             <Button
               style={{ marginTop: "10px", marginBottom: "10px" }}
               disabled={loading}

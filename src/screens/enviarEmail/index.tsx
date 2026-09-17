@@ -72,7 +72,7 @@ const EnviarEmailRecuperarAcesso: React.FC = () => {
             <img style={{ width: 100 }} src={logo} alt="logo" />
           </div>
 
-          <Typography color="#ADADAD" fontSize={30}>
+          <Typography sx={{ color: "#ADADAD", fontSize: 30 }}>
             Bem-vindo!
           </Typography>
 
