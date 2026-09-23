@@ -89,7 +89,7 @@ const Login: React.FC = () => {
           sx={{
             width: "100%",
             maxWidth: isNonMobile ? 390 : "100%",
-            backgroundColor: "#FFFFFF",
+            backgroundColor: "#222222",
             borderRadius: 10,
             padding: { xs: 3, sm: 5 },
             textAlign: "center",

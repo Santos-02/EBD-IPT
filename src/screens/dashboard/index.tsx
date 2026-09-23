@@ -84,7 +84,7 @@ const Dashboard = () => {
         }}
       >
         {SOCIEDADES.map((sociedade) => (
-          <Button
+          <Button Sim
             key={sociedade}
             fullWidth
             variant="contained"
