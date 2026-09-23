@@ -4,7 +4,7 @@
 
 **Presença EBD** is a web system for managing attendance and members of the **Sunday School** of the **Igreja Presbiteriana de Teresópolis (Teresópolis Presbyterian Church)**. The project was developed to replace manual attendance control with a digital solution that is practical, secure, and centralized.
 
-The system allows leaders to track members and attendance for each church society (**UCP, UPA, UMP, UPH, SAF**), visualize participation data on a dashboard, and generate branded PDF reports — all protected by authentication and backed by Supabase.
+The system allows leaders to track members and attendance for each church society (**UCP, UPA, UMP, UPH, SAF**), visualize participation data on a dashboard, and generate branded PDF reports, all protected by authentication and backed by Supabase.
 
 ---
 
