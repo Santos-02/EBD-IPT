@@ -7,7 +7,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 const SidebarCustom = ({ onMobileClose }: any) => {
