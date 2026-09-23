@@ -21,17 +21,27 @@ const SidebarCustom = ({ onMobileClose }: any) => {
 
     const isDark = theme.palette.mode === "dark";
 
-    const pathname = location.pathname;
-    let selected = "";
-    if (pathname === "/dashboard" || pathname.startsWith("/controle-presenca")) {
-        selected = "Dashboard";
-    } else if (pathname.startsWith("/membros") || pathname.startsWith("/cadastrar-membro")) {
-        selected = "Membros";
-    } else if (pathname.startsWith("/relatorios")) {
-        selected = "Relatórios";
-    } else if (pathname.startsWith("/usuarios")) {
-        selected = "Usuários";
+    const { pathname } = location;
+
+    function getSelectedKey(path: string): string {
+        switch (true) {
+            case path === "/dashboard":
+            case path.startsWith("/controle-presenca"):
+                return "Dashboard";
+
+            case path.startsWith("/membros"):
+            case path.startsWith("/cadastrar-membro"):
+                return "Membros";
+
+            case path.startsWith("/relatorios"):
+                return "Relatórios";
+
+            default:
+                return "";
+        }
     }
+
+    const selected = getSelectedKey(pathname);
 
     const Item = ({ title, to, icon }: any) => {
         return (
@@ -115,12 +125,6 @@ const SidebarCustom = ({ onMobileClose }: any) => {
                             to="/relatorios"
                             icon={<PictureAsPdfIcon fontSize="medium" />}
                         />
-
-                        <Item
-                            title="Usuários"
-                            to="/usuarios"
-                            icon={<PeopleOutlinedIcon fontSize="medium" />}
-                        />
                     </Box>
                 </Menu>
 
@@ -151,7 +155,7 @@ const SidebarCustom = ({ onMobileClose }: any) => {
                 </Box>
             </div>
         </Sidebar>
-        );
+    );
 };
 
 export default SidebarCustom;
