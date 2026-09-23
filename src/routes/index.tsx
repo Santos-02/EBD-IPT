@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import Login from "../screens/login";
 import Membros from "../screens/membro";
-import Usuarios from "../screens/usuario";
 import AuthContext from "../context/auth";
 import Sidebar from "../components/sidebar";
 import Dashboard from "../screens/dashboard";
@@ -77,7 +76,6 @@ const RoutesController: any = () => {
                     element={<ControlePresenca />}
                   />
                   <Route path="/relatorios" element={<Relatorios />} />
-                  <Route path="/usuarios" element={<Usuarios />} />
                   <Route path="/cadastrar-membro" element={<CadastrarMembro />} />
                   <Route
                     path="/login"
