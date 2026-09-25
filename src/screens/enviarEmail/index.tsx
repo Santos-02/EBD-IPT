@@ -1,6 +1,6 @@
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import background from "../../assets/image.jpg";
+import background from "../../assets/tulipas.jpg";
 import React, { memo, useState } from "react";
 import {
   Box,
@@ -72,8 +72,8 @@ const EnviarEmailRecuperarAcesso: React.FC = () => {
             <img style={{ width: 100 }} src={logo} alt="logo" />
           </div>
 
-          <Typography sx={{ color: "#ADADAD", fontSize: 30 }}>
-            Bem-vindo!
+          <Typography sx={{ color: "#222222", fontSize: 15 }}>
+            Recuperar senha
           </Typography>
 
           {message && <p>{message}</p>}

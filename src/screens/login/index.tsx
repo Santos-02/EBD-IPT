@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import logo from "../../assets/image.jpg";
 import AuthContext from "../../context/auth";
 import { useNavigate } from "react-router-dom";
-import background from "../../assets/image.jpg";
+import background from "../../assets/tulipas.jpg";
 import React, { memo, useContext, useEffect, useState } from "react";
 import {
   Box,
@@ -89,7 +89,7 @@ const Login: React.FC = () => {
           sx={{
             width: "100%",
             maxWidth: isNonMobile ? 390 : "100%",
-            backgroundColor: "#222222",
+            backgroundColor: "#FFFFFF",
             borderRadius: 10,
             padding: { xs: 3, sm: 5 },
             textAlign: "center",
@@ -172,7 +172,7 @@ const Login: React.FC = () => {
       >
         <Container maxWidth="sm">
           <Typography
-            sx={{ color: "grey", textAlign: "center" }}
+            sx={{ color: "white", textAlign: "center" }}
             variant="body1"
           >
             2026 - Desenvolvido por Santos-02©, todos os direitos reservados.
