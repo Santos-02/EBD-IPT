@@ -37,14 +37,19 @@ The system allows leaders to track members and attendance for each church societ
 
 ### 📸 Screenshots
 
-<!-- Replace the placeholders below with your screenshots (e.g., docs/login.png, docs/dashboard.png) -->
+<p align="center">
+  <img src="assets/login.png" alt="Login screen" width="900" />
+  <br /><br />
+  <img src="assets/desktop.png" alt="Presença EBD on a desktop screen" width="900" />
+</p>
 
-```
-<!-- Login screen -->
-<!-- Dashboard -->
-<!-- Attendance control -->
-<!-- PDF report -->
-```
+<p align="center">
+  <img src="assets/dashboard.jpeg" alt="Dashboard" width="185" />
+  <img src="assets/members.jpeg" alt="Member management" width="185" />
+  <img src="assets/sidebar.jpeg" alt="Sidebar menu" width="185" />
+  <img src="assets/pdf.jpeg" alt="Generated PDF report" width="185" />
+  <img src="assets/dark.jpeg" alt="Dark mode" width="185" />
+</p>
 
 ---
 
